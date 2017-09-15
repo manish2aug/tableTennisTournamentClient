@@ -1,0 +1,14 @@
+<div *ngIf="participants">
+  <ul class="list-group">
+    <li *ngFor="let participant of participants" class="list-group-item list-group-item-info">
+      <span [style.font-weight]="getStyle(participant)"> {{participant.firstName}} {{participant.lastName}}</span>
+      <span *ngIf="participant.isCaptain==true" style="display: inline-block">
+        <img src="assets/images/captain.JPG" width="38" height="38">
+        <span><b> [Captain]</b></span>
+      </span>
+      <span style="float: right">
+        <img style="display: inline-block" [src]="getImagePath(participant)" alt="[N\A]" width="38" height="38">
+      </span>
+    </li>
+  </ul>
+</div>

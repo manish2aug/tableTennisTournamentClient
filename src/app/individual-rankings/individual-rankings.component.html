@@ -1,0 +1,23 @@
+<div class="container">
+  <h2>Team rankings based on the games played</h2>
+  <table class="table table-striped table-bordered table-responsive">
+    <thead style="background-color: #ffc219; color: black; font-weight: bold">
+    <tr>
+      <td>Ranking</td>
+      <td>Participant Name</td>
+      <td>Total Wins</td>
+      <td>Won Against</td>
+      <td>Bonus Points (Diff)</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let participant of individualRanking; let rank = index" [attr.data-index]="i" >
+      <td>{{rank}}</td>
+      <td>{{participant.name}}</td>
+      <td>{{participant.victories}}</td>
+      <td>{{participant.wonAgainst}}</td>
+      <td>{{participant.points}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
