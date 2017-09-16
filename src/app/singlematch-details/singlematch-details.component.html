@@ -18,7 +18,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let game of singleGames" >
-      <td>{{game.eventDate}}</td>
+      <td style="white-space: nowrap">{{game.eventDate}}</td>
       <td>{{game.firstPlayerFullName}}</td>
       <td>{{game.firstPlayerTeamName}}</td>
       <td>{{game.secondPlayerFullName}}</td>
@@ -52,7 +52,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let game of doubleGames" >
-      <td>{{game.eventDate}}</td>
+      <td style="white-space: nowrap">{{game.eventDate}}</td>
       <td>{{game.firstPairFirstPlayerFullName}} <br> {{game.firstPairSecondPlayerFullName}}</td>
       <td>{{game.firstPairTeamName}}</td>
       <td>{{game.secondPairFirstPlayerFullName}} <br> {{game.secondPairSecondPlayerFullName}}</td>
