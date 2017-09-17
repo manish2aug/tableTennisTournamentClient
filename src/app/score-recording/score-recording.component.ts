@@ -1,39 +1,89 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Hero} from "../models/hero";
+import {ParticipantService} from "../services/participantService";
+import {Participant} from "../models/participant";
+import {SingleGameWriteRepresentation} from "../models/singleGameWriteRepresentation";
+import {SingleGameService} from "../services/singleGameService";
 
 @Component({
   selector: 'score-recording',
   templateUrl: './score-recording.component.html',
-  styles: []
+  styles: [],
+  providers: [ParticipantService, SingleGameService]
 })
 export class ScoreRecordingComponent implements OnInit {
 
-  constructor() { }
-  ngOnInit() {
+  firstPlayerInput:Participant[];
+  secondPlayerInput:Participant[] = [];
+  selectedFirstPlayerId:number;
+  selectedSecondPlayerId:number;
+
+  constructor(private paticipantService:ParticipantService, private singleGameService:SingleGameService) {
   }
 
-  powers = ['Really Smart', 'Super Flexible',
-    'Super Hot', 'Weather Changer'];
+  ngOnInit() {
+    this.getPlayers();
+  }
 
-  model = new Hero(18, 'Dr IQ', this.powers[0], 'Chuck Overstreet');
+  getPlayers() {
+    console.log("getPlayers() invoked");
+    return this.paticipantService.getAllParticipants().then(players => this.firstPlayerInput = players);
+  }
 
-  submitted = false;
-  hideAuth = false;
-  hideScoringSheet = true;
+  getPlayersOfOtherTeam(teamId) {
+    console.log("getPlayersOfOtherTeam() invoked");
+    return this.paticipantService.getTeamsParticipantsOfOtherTeams(teamId).then(players => this.secondPlayerInput = players);
+  }
+
+  saveGamesToDatabase(games:SingleGameWriteRepresentation[]) {
+    console.log("saveGamesToDatabase() invoked");
+    return this.singleGameService.saveGames(games).then(response => {console.log(response);});
+  }
+
+  // submitted = false;
+  // hideAuth = false;
+  // hideScoringSheet = true;
 
   onSubmit() {
     console.log("submitted");
-    // this.submitted = true;
-    // verify the id and hide the section
-    this.hideAuth = true;
-    this.hideScoringSheet = false;
+    // this.hideAuth = true;
+    // this.hideScoringSheet = false;
   }
 
-  open() {
-    console.log("submitGame1");
+
+  saveGames(form:any) {
+
+    console.log('you submitted value:', form["game1Player1Points"]);
+    let gameCollection:SingleGameWriteRepresentation[] = [];
+
+    if (form["game1Player1Points"] != "" && form["game1Player2Points"] != "") {
+      gameCollection[0] = new SingleGameWriteRepresentation(this.selectedFirstPlayerId, this.selectedSecondPlayerId, form["game1Player1Points"], form["game1Player2Points"]);
+    }
+    if (form["game2Player1Points"] != "" && form["game2Player2Points"] != "") {
+      gameCollection[1] = new SingleGameWriteRepresentation(this.selectedFirstPlayerId, this.selectedSecondPlayerId, form["game2Player1Points"], form["game2Player2Points"]);
+    }
+    if (form["game3Player1Points"] != "" && form["game3Player2Points"] != "") {
+      gameCollection[2] = new SingleGameWriteRepresentation(this.selectedFirstPlayerId, this.selectedSecondPlayerId, form["game3Player1Points"], form["game3Player2Points"]);
+    }
+    if (form["game4Player1Points"] != "" && form["game4Player2Points"] != "") {
+      gameCollection[3] = new SingleGameWriteRepresentation(this.selectedFirstPlayerId, this.selectedSecondPlayerId, form["game4Player1Points"], form["game4Player2Points"]);
+    }
+    if (form["game5Player1Points"] != "" && form["game5Player2Points"] != "") {
+      gameCollection[4] = new SingleGameWriteRepresentation(this.selectedFirstPlayerId, this.selectedSecondPlayerId, form["game5Player1Points"], form["game5Player2Points"]);
+    }
+    this.saveGamesToDatabase(gameCollection);
   }
 
-  // TODO: Remove this when we're done
-  get diagnostic() { return JSON.stringify(this.model); }
+  onFirstPlayerChange(val) {
+    let teamId;
+    if (this.selectedFirstPlayerId != null) {
+      for (var i = 0; i < this.firstPlayerInput.length; i++) {
+        if (this.firstPlayerInput[i].id == this.selectedFirstPlayerId) {
+          teamId = this.firstPlayerInput[i].teamId;
+          this.getPlayersOfOtherTeam(teamId);
+        }
+      }
+    }
+  }
 
 }

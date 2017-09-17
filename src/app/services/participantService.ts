@@ -21,6 +21,20 @@ export class ParticipantService {
       .catch(this.handleError);
   }
 
+  getTeamsParticipantsOfOtherTeams(teamId):Promise<Participant[]> {
+    return this.http.get(this.teamUrl + "?teamId=" + teamId+"&belongsToSameTeam=false")
+      .toPromise()
+      .then(response => response.json() as Participant[])
+      .catch(this.handleError);
+  }
+
+  getAllParticipants():Promise<Participant[]> {
+    return this.http.get(this.teamUrl)
+      .toPromise()
+      .then(response => response.json() as Participant[])
+      .catch(this.handleError);
+  }
+
   private handleError(error:any):Promise<any> {
     console.error('Error', error);
     return Promise.reject(error.message || error);

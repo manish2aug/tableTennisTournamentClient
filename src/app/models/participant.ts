@@ -1,5 +1,6 @@
 export class Participant {
   constructor(public id:number,
+              public teamId:string,
               public firstName:string,
               public lastName:string,
               public photoPath:string,

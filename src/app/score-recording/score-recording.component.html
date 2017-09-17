@@ -1,7 +1,7 @@
 <div [hidden]="submitted" class="container">
-  <h3>Single Game</h3>
+  <h3><u>Single Game</u></h3>
 
-  <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+  <form #scoringForm="ngForm">
 
     <div class="row form-group">
       <div class="col-sm-5" style="background-color:lavender;">
@@ -9,9 +9,9 @@
           <label for="player1">Player 1</label>
         </div>
         <div class="row">
-          <select class="form-control form-control-lg" id="player1" required [(ngModel)]="model.power" name="power">
-            <option [value]="null">Please choose</option>
-            <option *ngFor="let pow of powers" [value]="pow">{{pow}}</option>
+          <select [(ngModel)]="selectedFirstPlayerId" name="firstPlayerCombo" required id="player1" (change)="onFirstPlayerChange($event)" class="form-control form-control-lg">
+            <option [value]="null">Please choose the first player</option>
+            <option *ngFor="let player of firstPlayerInput" [value]="player.id">{{player.firstName}} {{player.lastName}}</option>
           </select>
         </div>
       </div>
@@ -20,107 +20,149 @@
       </div>
       <div class="col-sm-5" style="background-color:lavender;">
         <div class="row">
-          <label for="player1">Player 1</label>
+          <label for="player2">Player 2</label>
         </div>
         <div class="row">
-          <select class="form-control form-control-lg" id="player1" required [(ngModel)]="model.power" name="power">
-            <option [value]="null">Please choose</option>
-            <option *ngFor="let pow of powers" [value]="pow">{{pow}}</option>
+          <select [(ngModel)]="selectedSecondPlayerId" required name="firstPlayerCombo" id="player2"  class="form-control form-control-lg">
+            <option [value]="null">Please choose the opponent player</option>
+            <option *ngFor="let player of secondPlayerInput" [value]="player.id">{{player.firstName}} {{player.lastName}}</option>
           </select>
         </div>
       </div>
     </div>
 
-    <div [hidden]="hideAuth" class="row form-group">
-      <div class="row">
-        <div class="col-sm-2">
-          <label for="player1">Captain ID</label></div>
-        <div class="col-sm-8"><input type="password" class="form-control"></div>
-        <div class="col-sm-2">
-          <button type="Verify" class="btn btn-success" [disabled]="!heroForm.form.valid">Submit</button>
-        </div>
-      </div>
-    </div>
+    <!--<div [hidden]="hideAuth" class="row form-group">-->
+      <!--<div class="row">-->
+        <!--<div class="col-sm-2">-->
+          <!--<label for="player1">Captain ID</label></div>-->
+        <!--<div class="col-sm-8"><input type="password" class="form-control"></div>-->
+        <!--<div class="col-sm-2">-->
+          <!--<button type="Verify" class="btn btn-success" [disabled]="!heroForm.form.valid">Submit</button>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
 
-    <div [hidden]="hideScoringSheet" class="row form-group">
+    <div class="row form-group">
       <div class="row">
         <div class="col-sm-3">
-          <label class="alignright">Game 1</label>
+          <label class="alignright" for="game1Player1Points">Game 1</label>
+        </div>
+        <div class="col-sm-3 field">
+          <input
+            type="number"
+            id="game1Player1Points"
+            name="game1Player1Points"
+            ngModel
+            class="form-control">
         </div>
         <div class="col-sm-3">
-          <input type="number" class="form-control">
-        </div>
-        <div class="col-sm-3">
-          <input type="number" class="form-control">
-        </div>
-        <div class="col-sm-3">
-          <button type="button" class="btn btn-success" [disabled]="!heroForm.form.valid" (click)="open()">Submit</button>
+          <input
+            type="number"
+            id="game1Player2Points"
+            name = "game1Player2Points"
+            ngModel
+            class="form-control">
         </div>
       </div>
     </div>
-    <div [hidden]="hideScoringSheet" class="row form-group">
+    <div class="row form-group">
       <div class="row">
         <div class="col-sm-3">
-          <label class="alignright">Game 2</label>
+          <label class="alignright" for="game2Player1Points">Game 2</label>
         </div>
         <div class="col-sm-3">
-          <input type="number" class="form-control">
+          <input
+            type="number"
+            id="game2Player1Points"
+            name="game2Player1Points"
+            ngModel
+            class="form-control">
         </div>
         <div class="col-sm-3">
-          <input type="number" class="form-control">
-        </div>
-        <div class="col-sm-3">
-          <button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid">Submit</button>
+          <input
+            type="number"
+            id="game2Player2Points"
+            name="game2Player2Points"
+            ngModel
+            class="form-control">
         </div>
       </div>
     </div>
-    <div [hidden]="hideScoringSheet" class="row form-group">
+    <div class="row form-group">
       <div class="row">
         <div class="col-sm-3">
-          <label class="alignright">Game 3</label>
+          <label class="alignright" for="game3Player1Points">Game 3</label>
         </div>
         <div class="col-sm-3">
-          <input type="number" class="form-control">
+          <input
+            type="number"
+            id="game3Player1Points"
+            name="game3Player1Points"
+            ngModel
+            class="form-control">
         </div>
         <div class="col-sm-3">
-          <input type="number" class="form-control">
-        </div>
-        <div class="col-sm-3">
-          <button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid">Submit</button>
+          <input
+            type="number"
+            id="game3Player2Points"
+            name="game3Player2Points"
+            class="form-control">
         </div>
       </div>
     </div>
-    <div [hidden]="hideScoringSheet" class="row form-group">
+    <div class="row form-group">
       <div class="row">
         <div class="col-sm-3">
-          <label class="alignright">Game 4</label>
+          <label class="alignright" for="game4Player1Points">Game 4</label>
         </div>
         <div class="col-sm-3">
-          <input type="number" class="form-control">
+          <input
+            type="number"
+            id="game4Player1Points"
+            name="game4Player2Points"
+            ngModel
+            class="form-control">
         </div>
         <div class="col-sm-3">
-          <input type="number" class="form-control">
-        </div>
-        <div class="col-sm-3">
-          <button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid">Submit</button>
+          <input
+            type="number"
+            id="game4Player2Points"
+            name="game4Player2Points"
+            ngModel
+            class="form-control">
         </div>
       </div>
     </div>
-    <div [hidden]="hideScoringSheet" class="row form-group">
+    <div class="row form-group">
       <div class="row">
         <div class="col-sm-3">
-          <label class="alignright">Game 5</label>
+          <label class="alignright" for="game5Player1Points">Game 5</label>
         </div>
         <div class="col-sm-3">
-          <input type="number" class="form-control">
+          <input
+            type="number"
+            id="game5Player1Points"
+            name="game5Player1Points"
+            ngModel
+            class="form-control">
         </div>
         <div class="col-sm-3">
-          <input type="number" class="form-control">
-        </div>
-        <div class="col-sm-3">
-          <button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid">Submit</button>
+          <input
+            type="number"
+            id="game5Player2Points"
+            name="game5Player2Points"
+            ngModel
+            class="form-control">
         </div>
       </div>
+    </div>
+    <div class="col-sm-12">
+      <button
+        style="width:inherit"
+        type="submit"
+        class="btn btn-success"
+        [disabled]="!scoringForm.form.valid"
+        (click)="saveGames(scoringForm.value)">Save Games</button>
     </div>
   </form>
 </div>
