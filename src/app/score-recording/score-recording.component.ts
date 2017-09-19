@@ -32,7 +32,7 @@ export class ScoreRecordingComponent implements OnInit {
 
 
 
-  constructor(private paticipantService:ParticipantService,
+  constructor(private participantService:ParticipantService,
               private singleGameService:SingleGameService,
               private authService:AuthService) {
   }
@@ -43,12 +43,12 @@ export class ScoreRecordingComponent implements OnInit {
 
   getPlayers() {
     console.log("getPlayers() invoked");
-    return this.paticipantService.getAllParticipants().then(players => this.firstPlayerInput = players);
+    return this.participantService.getAllParticipants().then(players => this.firstPlayerInput = players);
   }
 
   getPlayersOfOtherTeam(teamId) {
     console.log("getPlayersOfOtherTeam() invoked");
-    return this.paticipantService.getTeamsParticipantsOfOtherTeams(teamId).then(players => this.secondPlayerInput = players);
+    return this.participantService.getTeamsParticipantsOfOtherTeams(teamId).then(players => this.secondPlayerInput = players);
   }
 
   saveGamesToDatabase(games:SingleGameWriteRepresentation[]) {
