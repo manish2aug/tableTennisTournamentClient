@@ -8,7 +8,7 @@ import {ApplicationConstants} from "../constants/applicationConstants";
 @Injectable()
 export class TeamRankingService {
 
-  private url = 'http://' + ApplicationConstants.HOST_IP + ':80/rest/teamrankings';  // URL to web API
+  private url = ApplicationConstants.SERVICE_ENDPOINT + '/rest/teamrankings';  // URL to web API
 
   constructor(private http: Http) { }
 

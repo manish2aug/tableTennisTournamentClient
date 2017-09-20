@@ -1,8 +1,6 @@
 <div [hidden]="submitted" class="container">
 
-  <form #scoringForm="ngForm">
-
-
+  <form #authForm="ngForm">
     <div [hidden]="hideAuth" class="row form-group">
       <div class="row">
         <div class="col-sm-2">
@@ -12,18 +10,23 @@
             type="password"
             id="captainPassword"
             name="captainPassword"
+            required
             ngModel
             class="form-control"></div>
         <div class="col-sm-2">
           <button type="button"
                   class="btn btn-success"
-                  (click)="verifyCaptain(scoringForm.value.captainPassword)">Verify
+                  [disabled]="!authForm.form.valid"
+                  (click)="verifyCaptain(authForm.value.captainPassword)">Verify
           </button>
         </div>
       </div>
     </div>
+  </form>
+  <form #scoringForm="ngForm">
+
     <div [hidden]="hideScoringSheet">
-      <h3><u>Single Game</u></h3>
+      <h3 align="center"><u>Single Game</u></h3>
       <div class="row form-group">
         <div class="col-sm-5" style="background-color:lavender;">
           <div class="row">
@@ -183,10 +186,12 @@
         </div>
       </div>
     </div>
-    <br>
-    <br>
+  </form>
+  <br>
+  <br>
+  <form #doubleScoringForm="ngForm">
     <div [hidden]="hideScoringSheet">
-      <h3><u>Double Game</u></h3>
+      <h3 align="center"><u>Double Game</u></h3>
       <div class="row form-group">
         <div class="col-sm-5" style="background-color:lavender;">
           <div class="row">
@@ -378,8 +383,8 @@
             style="width:inherit"
             type="submit"
             class="btn btn-success"
-            [disabled]="!scoringForm.form.valid"
-            (click)="saveGames(scoringForm.value)">Save Games
+            [disabled]="!doubleScoringForm.form.valid"
+            (click)="saveDoubleGames(doubleScoringForm.value)">Save Games
           </button>
         </div>
       </div>

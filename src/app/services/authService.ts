@@ -11,7 +11,7 @@ import {AuthResult} from "../models/authResult";
 @Injectable()
 export class AuthService {
 
-  private authUrl = 'http://' + ApplicationConstants.HOST_IP + ':80/rest/auth';  // URL to web API
+  private authUrl = ApplicationConstants.SERVICE_ENDPOINT + '/rest/auth';  // URL to web API
 
   constructor(private http:Http) {
   }

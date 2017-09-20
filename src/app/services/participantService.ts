@@ -9,20 +9,20 @@ import {ApplicationConstants} from "../constants/applicationConstants";
 @Injectable()
 export class ParticipantService {
 
-  private teamUrl = 'http://' + ApplicationConstants.HOST_IP + ':80/rest/players';  // URL to web API
+  private teamUrl = ApplicationConstants.SERVICE_ENDPOINT + '/rest/players';  // URL to web API
 
   constructor(private http:Http) {
   }
 
   getTeamsParticipants(teamId):Promise<Participant[]> {
-    return this.http.get(this.teamUrl + "?teamId=" + teamId)
+    return this.http.get(this.teamUrl + "?teamId=" + teamId + "&belongsToSameTeam=true")
       .toPromise()
       .then(response => response.json() as Participant[])
       .catch(this.handleError);
   }
 
   getTeamsParticipantsOfOtherTeams(teamId):Promise<Participant[]> {
-    return this.http.get(this.teamUrl + "?teamId=" + teamId+"&belongsToSameTeam=false")
+    return this.http.get(this.teamUrl + "?teamId=" + teamId + "&belongsToSameTeam=false")
       .toPromise()
       .then(response => response.json() as Participant[])
       .catch(this.handleError);

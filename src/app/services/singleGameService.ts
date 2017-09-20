@@ -8,7 +8,7 @@ import {SingleGameWriteRepresentation} from "../models/singleGameWriteRepresenta
 @Injectable()
 export class SingleGameService {
 
-  private singleGamesUrl = 'http://' + ApplicationConstants.HOST_IP + ':80/rest/singles';  // URL to web API
+  private singleGamesUrl = ApplicationConstants.SERVICE_ENDPOINT + '/rest/singles';  // URL to web API
 
   constructor(private http:Http) {
   }

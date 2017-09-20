@@ -10,7 +10,7 @@ import {ApplicationConstants} from "../constants/applicationConstants";
 @Injectable()
 export class TeamService {
 
-  private teamUrl = 'http://' + ApplicationConstants.HOST_IP + ':80/rest/teams';  // URL to web API
+  private teamUrl = ApplicationConstants.SERVICE_ENDPOINT + '/rest/teams';  // URL to web API
 
   constructor(private http:Http) {
   }
