@@ -4,13 +4,15 @@
     <thead style="background-color: #ffc219; color: black; font-weight: bold">
     <tr>
       <td>Team Name</td>
-      <td>Total Points</td>
+      <td>Victory Points</td>
+      <td>Points Balance</td>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let team of teamRanking" >
       <td>{{team.name}}</td>
       <td>{{team.points}}</td>
+      <td>{{team.pointBalance}}</td>
     </tr>
     </tbody>
   </table>
