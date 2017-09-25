@@ -4,6 +4,7 @@ import "rxjs/add/operator/toPromise";
 import {DoubleGame} from "../models/doubleGame";
 import {ApplicationConstants} from "../constants/applicationConstants";
 import {DoubleGameWriteRepresentation} from "../models/doubleGameWriteRepresentation";
+import {DoubleGameWriteRepresentationContainer} from "../models/doubleGameWriteRepresentationContainer";
 
 @Injectable()
 export class DoubleGameService {
@@ -24,8 +25,8 @@ export class DoubleGameService {
       .catch(this.handleError);
   }
 
-  saveGames(games:DoubleGameWriteRepresentation[]):Promise<void> {
-    return this.http.post(this.url, games)
+  saveGames(gamesContainer:DoubleGameWriteRepresentationContainer):Promise<void> {
+    return this.http.post(this.url, gamesContainer)
       .toPromise()
       .then(response => {
         if (response.status == 201) {
@@ -36,7 +37,11 @@ export class DoubleGameService {
   }
 
   private handleError(error:any):Promise<any> {
-    console.error('Error', error); // for demo purposes only
+    if (error.status == 401) {
+      alert("Supplied Captain ID is not correct !!");
+    } else if (error.status == 400) {
+      alert("Please set Captain ID before making the call to update game score!");
+    }
     return Promise.reject(error.message || error);
   }
 }

@@ -8,6 +8,9 @@ import {AuthService} from "../services/authService";
 import {AuthResult} from "../models/authResult";
 import {DoubleGameWriteRepresentation} from "../models/doubleGameWriteRepresentation";
 import {DoubleGameService} from "../services/doubleGameService";
+import {SingleGameWriteRepresentationContainer} from "../models/singleGameWriteRepresentationContainer";
+import {isUndefined} from "util";
+import {DoubleGameWriteRepresentationContainer} from "../models/doubleGameWriteRepresentationContainer";
 
 @Component({
   selector: 'score-recording',
@@ -30,6 +33,7 @@ export class ScoreRecordingComponent implements OnInit {
   selectedTeam2Player2Id:number;
   hideAuth = false;
   hideScoringSheet = true;
+  captainId:string;
 
   constructor(private participantService:ParticipantService,
               private singleGameService:SingleGameService,
@@ -48,15 +52,12 @@ export class ScoreRecordingComponent implements OnInit {
 
   getPlayersOfOtherTeam(teamId):Promise<Participant[]> {
     console.log("getPlayersOfOtherTeam() invoked");
-    // return this.participantService.getTeamsParticipantsOfOtherTeams(teamId).then(players => this.secondPlayerInput = players);
     return this.participantService.getTeamsParticipantsOfOtherTeams(teamId).then(players => players as Participant[]);
   }
 
-  saveGamesToDatabase(games:SingleGameWriteRepresentation[]) {
-    console.log("saveGamesToDatabase() invoked");
-    return this.singleGameService.saveGames(games).then(response => {
-      console.log(response);
-    });
+  saveSingleGamesToDatabase(gameContainer:SingleGameWriteRepresentationContainer) {
+    console.log("saveSingleGamesToDatabase() invoked",gameContainer);
+    this.singleGameService.saveGames(gameContainer);
   }
 
   verifyCaptainId(captainId) {
@@ -71,43 +72,47 @@ export class ScoreRecordingComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    console.log("submitted");
-    // this.hideAuth = true;
-    // this.hideScoringSheet = false;
-  }
-
   verifyCaptain(captainId) {
-    console.log("manish: " + captainId);
-    this.verifyCaptainId(captainId);
-    // console.log("after service: ",this.authResult );
-    // if (this.authResult !== null && this.authResult.valid) {
-    //   this.hideAuth = true;
-    //   this.hideScoringSheet = false;
-    // }
+    this.captainId = captainId;
   }
 
   saveGames(form:any) {
 
-    console.log('you submitted value:', form["game1Player1Points"]);
+    console.log('you submitted value:', form);
     let gameCollection:SingleGameWriteRepresentation[] = [];
 
-    if (form["game1Player1Points"] != "" && form["game1Player2Points"] != "") {
-      gameCollection[0] = new SingleGameWriteRepresentation(this.selectedFirstPlayerId, this.selectedSecondPlayerId, form["game1Player1Points"], form["game1Player2Points"]);
+    if (this.areGameResultValid(form["game1Player1Points"],form["game1Player2Points"])) {
+      gameCollection.push(new SingleGameWriteRepresentation(this.selectedFirstPlayerId, this.selectedSecondPlayerId, form["game1Player1Points"], form["game1Player2Points"]));
     }
-    if (form["game2Player1Points"] != "" && form["game2Player2Points"] != "") {
-      gameCollection[1] = new SingleGameWriteRepresentation(this.selectedFirstPlayerId, this.selectedSecondPlayerId, form["game2Player1Points"], form["game2Player2Points"]);
+    if (this.areGameResultValid(form["game2Player1Points"], form["game2Player2Points"])) {
+      gameCollection.push(new SingleGameWriteRepresentation(this.selectedFirstPlayerId, this.selectedSecondPlayerId, form["game2Player1Points"], form["game2Player2Points"]));
     }
-    if (form["game3Player1Points"] != "" && form["game3Player2Points"] != "") {
-      gameCollection[2] = new SingleGameWriteRepresentation(this.selectedFirstPlayerId, this.selectedSecondPlayerId, form["game3Player1Points"], form["game3Player2Points"]);
+    if (this.areGameResultValid(form["game3Player1Points"], form["game3Player2Points"]) ) {
+      gameCollection.push(new SingleGameWriteRepresentation(this.selectedFirstPlayerId, this.selectedSecondPlayerId, form["game3Player1Points"], form["game3Player2Points"]));
     }
-    if (form["game4Player1Points"] != "" && form["game4Player2Points"] != "") {
-      gameCollection[3] = new SingleGameWriteRepresentation(this.selectedFirstPlayerId, this.selectedSecondPlayerId, form["game4Player1Points"], form["game4Player2Points"]);
+    if (this.areGameResultValid(form["game4Player1Points"], form["game4Player2Points"])) {
+      gameCollection.push(new SingleGameWriteRepresentation(this.selectedFirstPlayerId, this.selectedSecondPlayerId, form["game4Player1Points"], form["game4Player2Points"]));
     }
-    if (form["game5Player1Points"] != "" && form["game5Player2Points"] != "") {
-      gameCollection[4] = new SingleGameWriteRepresentation(this.selectedFirstPlayerId, this.selectedSecondPlayerId, form["game5Player1Points"], form["game5Player2Points"]);
+    if (this.areGameResultValid(form["game5Player1Points"], form["game5Player2Points"] )) {
+      gameCollection.push(new SingleGameWriteRepresentation(this.selectedFirstPlayerId, this.selectedSecondPlayerId, form["game5Player1Points"], form["game5Player2Points"]));
     }
-    this.saveGamesToDatabase(gameCollection);
+
+    let gameContainer:SingleGameWriteRepresentationContainer = new SingleGameWriteRepresentationContainer(gameCollection, this.captainId);
+    this.saveSingleGamesToDatabase(gameContainer);
+  }
+
+  areGameResultValid(firstPartyPoints, secondPartyPoints):boolean{
+    if(firstPartyPoints=== ""
+      || secondPartyPoints === ""
+      || firstPartyPoints == undefined
+      || secondPartyPoints  == undefined
+      || secondPartyPoints  == firstPartyPoints
+      || (firstPartyPoints > secondPartyPoints && (firstPartyPoints - secondPartyPoints) <2)
+      || (firstPartyPoints < secondPartyPoints && (secondPartyPoints - firstPartyPoints) <2)
+    ){
+        return false;
+    }
+    return true;
   }
 
   saveDoubleGames(form:any) {
@@ -115,29 +120,29 @@ export class ScoreRecordingComponent implements OnInit {
     console.log('you submitted value:', form);
     let gameCollection:DoubleGameWriteRepresentation[] = [];
 
-    if (form["doubleGame1Player1Points"] != "" && form["doubleGame1Player2Points"] != "") {
-      gameCollection[0] = new DoubleGameWriteRepresentation(this.selectedTeam1Player1Id, this.selectedTeam1Player2Id, this.selectedTeam2Player1Id, this.selectedTeam2Player2Id, form["doubleGame1Player1Points"], form["doubleGame1Player2Points"]);
+    if (this.areGameResultValid(form["doubleGame1Player1Points"], form["doubleGame1Player2Points"])) {
+      gameCollection.push(new DoubleGameWriteRepresentation(this.selectedTeam1Player1Id, this.selectedTeam1Player2Id, this.selectedTeam2Player1Id, this.selectedTeam2Player2Id, form["doubleGame1Player1Points"], form["doubleGame1Player2Points"]));
     }
-    if (form["doubleGame2Player1Points"] != "" && form["doubleGame2Player2Points"] != "") {
-      gameCollection[1] = new DoubleGameWriteRepresentation(this.selectedTeam1Player1Id, this.selectedTeam1Player2Id, this.selectedTeam2Player1Id, this.selectedTeam2Player2Id, form["doubleGame2Player1Points"], form["doubleGame2Player2Points"]);
+    if (this.areGameResultValid(form["doubleGame2Player1Points"], form["doubleGame2Player2Points"])) {
+      gameCollection.push(new DoubleGameWriteRepresentation(this.selectedTeam1Player1Id, this.selectedTeam1Player2Id, this.selectedTeam2Player1Id, this.selectedTeam2Player2Id, form["doubleGame2Player1Points"], form["doubleGame2Player2Points"]));
     }
-    if (form["doubleGame3Player1Points"] != "" && form["doubleGame3Player2Points"] != "") {
-      gameCollection[2] = new DoubleGameWriteRepresentation(this.selectedTeam1Player1Id, this.selectedTeam1Player2Id, this.selectedTeam2Player1Id, this.selectedTeam2Player2Id, form["doubleGame3Player1Points"], form["doubleGame2Player2Points"]);
+    if (this.areGameResultValid(form["doubleGame3Player1Points"], form["doubleGame3Player2Points"])) {
+      gameCollection.push(new DoubleGameWriteRepresentation(this.selectedTeam1Player1Id, this.selectedTeam1Player2Id, this.selectedTeam2Player1Id, this.selectedTeam2Player2Id, form["doubleGame3Player1Points"], form["doubleGame3Player2Points"]));
     }
-    if (form["doubleGame4Player1Points"] != "" && form["doubleGame4Player2Points"] != "") {
-      gameCollection[3] = new DoubleGameWriteRepresentation(this.selectedTeam1Player1Id, this.selectedTeam1Player2Id, this.selectedTeam2Player1Id, this.selectedTeam2Player2Id, form["doubleGame4Player1Points"], form["doubleGame4Player2Points"]);
+    if (this.areGameResultValid(form["doubleGame4Player1Points"], form["doubleGame4Player2Points"])) {
+      gameCollection.push(new DoubleGameWriteRepresentation(this.selectedTeam1Player1Id, this.selectedTeam1Player2Id, this.selectedTeam2Player1Id, this.selectedTeam2Player2Id, form["doubleGame4Player1Points"], form["doubleGame4Player2Points"]));
     }
-    if (form["doubleGame5Player1Points"] != "" && form["doubleGame5Player2Points"] != "") {
-      gameCollection[4] = new DoubleGameWriteRepresentation(this.selectedTeam1Player1Id, this.selectedTeam1Player2Id, this.selectedTeam2Player1Id, this.selectedTeam2Player2Id, form["doubleGame5Player1Points"], form["doubleGame5Player2Points"]);
+    if (this.areGameResultValid(form["doubleGame5Player1Points"], form["doubleGame5Player2Points"])) {
+      gameCollection.push(new DoubleGameWriteRepresentation(this.selectedTeam1Player1Id, this.selectedTeam1Player2Id, this.selectedTeam2Player1Id, this.selectedTeam2Player2Id, form["doubleGame5Player1Points"], form["doubleGame5Player2Points"]));
     }
-    this.saveDoublesGamesToDatabase(gameCollection);
+    console.log("size:"+gameCollection.length);
+    let gameContainer:DoubleGameWriteRepresentationContainer = new DoubleGameWriteRepresentationContainer(gameCollection, this.captainId);
+    this.saveDoublesGamesToDatabase(gameContainer);
   }
 
-  saveDoublesGamesToDatabase(games:DoubleGameWriteRepresentation[]) {
+  saveDoublesGamesToDatabase(gamesContainer:DoubleGameWriteRepresentationContainer) {
     console.log("saveDoublesGamesToDatabase() invoked");
-    return this.doubleGameService.saveGames(games).then(response => {
-      console.log(response);
-    });
+    this.doubleGameService.saveGames(gamesContainer);
   }
 
   onFirstPlayerChange(val) {

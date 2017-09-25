@@ -4,6 +4,8 @@ import "rxjs/add/operator/toPromise";
 import {SingleGame} from "../models/singleGame";
 import {ApplicationConstants} from "../constants/applicationConstants";
 import {SingleGameWriteRepresentation} from "../models/singleGameWriteRepresentation";
+import {SingleGameWriteRepresentationContainer} from "../models/singleGameWriteRepresentationContainer";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Injectable()
 export class SingleGameService {
@@ -24,11 +26,12 @@ export class SingleGameService {
       .catch(this.handleError);
   }
 
-  saveGames(games:SingleGameWriteRepresentation[]):Promise<void> {
-    return this.http.post(this.singleGamesUrl,games)
+  saveGames(gameContainer:SingleGameWriteRepresentationContainer):Promise<void> {
+    return this.http.post(this.singleGamesUrl, gameContainer)
       .toPromise()
       .then(response => {
-        if(response.status == 201){
+        console.log("response status" + response.status);
+        if (response.status == 201) {
           alert("Saved successfully");
         }
       })
@@ -36,7 +39,11 @@ export class SingleGameService {
   }
 
   private handleError(error:any):Promise<any> {
-    console.error('Error', error); // for demo purposes only
+    if (error.status == 401) {
+      alert("Supplied Captain ID is not correct !!");
+    } else if (error.status == 400) {
+      alert("Please set Captain ID before making the call to update game score!");
+    }
     return Promise.reject(error.message || error);
   }
 }
