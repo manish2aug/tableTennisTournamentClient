@@ -6,13 +6,15 @@
       <td>Team Name</td>
       <td>Victory Points</td>
       <td>Points Balance</td>
+      <td>Games Played</td>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let team of teamRanking" >
       <td>{{team.name}}</td>
       <td>{{team.points}}</td>
-      <td>{{team.pointBalance}}</td>
+      <td>{{team.displayPoints}}</td>
+      <td>{{team.noOfGames}}</td>
     </tr>
     </tbody>
   </table>
