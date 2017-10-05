@@ -28,7 +28,7 @@
       <td>{{game.scores[2].firstPlayerPoints}} -  {{game.scores[2].secondPlayerPoints}}</td>
       <td>{{game.scores[3].firstPlayerPoints}} -  {{game.scores[3].secondPlayerPoints}}</td>
       <td>{{game.scores[4].firstPlayerPoints}} -  {{game.scores[4].secondPlayerPoints}}</td>
-      <td><b>{{game.winnerName}}  (TEAM - <span style="color: red">{{game.winnerTeam}})</span></b></td>
+      <td style="white-space: nowrap"><b>{{game.winnerName}}  <span style="color: red;font-size: medium">({{game.winnerTeam}})</span></b></td>
     </tr>
     </tbody>
   </table>
@@ -62,7 +62,7 @@
       <td>{{game.scores[2].firstPlayerPoints}} -  {{game.scores[2].secondPlayerPoints}}</td>
       <td>{{game.scores[3].firstPlayerPoints}} -  {{game.scores[3].secondPlayerPoints}}</td>
       <td>{{game.scores[4].firstPlayerPoints}} -  {{game.scores[4].secondPlayerPoints}}</td>
-      <td><b>Team - {{game.winnerTeam}}</b></td>
+      <td><span style="color: red;font-size: medium"><b>{{game.winnerTeam}}</b></span></td>
     </tr>
     </tbody>
   </table>
