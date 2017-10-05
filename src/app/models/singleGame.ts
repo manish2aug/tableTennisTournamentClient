@@ -8,6 +8,7 @@ export class SingleGame {
               public secondPlayerImageName:string,
               public winnerName:string,
               public eventDate:string,
+              public winnerTeam:string,
               public scores:Score[]) {
   }
 }
