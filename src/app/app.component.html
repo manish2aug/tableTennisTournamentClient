@@ -1,41 +1,105 @@
+<head>
+  <style>
+    .demo-tab-group {
+      color: black;
+    }
+    .mat-tab {
+      color: black;
+    }
+    .demo-tab-content {
+      padding: 16px;
+    }
+  </style>
+</head>
 <div class="container-fluid">
   <h1>Momentum Sports Challenge - Table Tennis</h1>
 </div>
 
-<div id="exTab1" class="container-fluid">
-  <ul class="nav nav-pills">
-    <li class="active"><a href="#1a" data-toggle="tab">Teams</a></li>
-    <li><a href="#2a" data-toggle="tab">Team Rankings</a></li>
-    <li><a href="#3a" data-toggle="tab">Individual Ranking</a></li>
-    <li><a href="#4a" data-toggle="tab">Past Matches</a></li>
-    <li><a href="#5a" data-toggle="tab">Update Score</a></li>
-  </ul>
-  <div class="tab-content clearfix">
-    <div class="tab-pane active" id="1a">
-      <h3 style="color: black"> Click to see the participants:</h3><br>
+<!--<mat-card>-->
+  <!--<img mat-card-image style="width: 200px;" src="http://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
+<!--</mat-card>-->
+<!--<mat-card>-->
+  <!--<img mat-card-image style="width: 200px;" src="http://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
+<!--</mat-card>-->
+
+
+
+<mat-tab-group class="demo-tab-group">
+  <mat-tab label="Teams" class="mat-tab">
+    <div class="demo-tab-content">
+      <h3> Click to see the participants:</h3><br>
       <ul class="list-group">
         <li *ngFor="let team of teams" class="list-group-item list-group-item-info"
-            [class.selected]="team === selectedTeam" (click)="onSelect(team.id)" style="background-color: #ffc219;color: black; font-weight: bold;">
+            [class.selected]="team === selectedTeam" (click)="onSelect(team.id)"
+            style="background-color: green;color: whitesmoke; font-weight: bold;">
           <span>{{team.name}} - {{team.color}}</span>
         </li>
       </ul>
       <customer-detail [participants]="participants"></customer-detail>
     </div>
-    <div class="tab-pane" id="2a">
+  </mat-tab>
+  <mat-tab label="Teams Ranking">
+    <div class="demo-tab-content">
       <team-rankings></team-rankings>
     </div>
-    <div class="tab-pane" id="3a">
-      <individual-rankings></individual-rankings>
-    </div>
-    <div class="tab-pane" id="4a">
+  </mat-tab>
+  <mat-tab label="Played Matches">
+    <div class="demo-tab-content">
       <single-game></single-game>
     </div>
-    <div class="tab-pane" id="5a">
-      <h3>Capture Score</h3>
+  </mat-tab>
+  <mat-tab label="Individuals Ranking">
+    <div class="demo-tab-content">
+      <individual-rankings></individual-rankings>
+    </div>
+  </mat-tab>
+  <mat-tab label="Score Keeping">
+    <div class="demo-tab-content">
+      <h3 style="color: black">Capture Score</h3><br>
       <score-recording></score-recording>
     </div>
-  </div>
-</div>
+  </mat-tab>
+</mat-tab-group>
+
+
+<!--<div id="exTab1" class="container-fluid">-->
+  <!--<ul class="nav nav-pills">-->
+    <!--<li class="active"><a href="#1a" data-toggle="tab">Teams</a></li>-->
+    <!--<li><a href="#2a" data-toggle="tab">Team Rankings</a></li>-->
+    <!--<li><a href="#3a" data-toggle="tab">Individual Ranking</a></li>-->
+    <!--<li><a href="#4a" data-toggle="tab">Past Matches</a></li>-->
+    <!--<li><a href="#5a" data-toggle="tab">Update Score</a></li>-->
+  <!--</ul>-->
+  <!--<div class="tab-content clearfix">-->
+    <!--<div class="tab-pane active" id="1a">-->
+      <!--<h3 style="color: black"> Click to see the participants:</h3><br>-->
+      <!--<ul class="list-group">-->
+        <!--<li *ngFor="let team of teams" class="list-group-item list-group-item-info"-->
+            <!--[class.selected]="team === selectedTeam" (click)="onSelect(team.id)"-->
+            <!--style="background-color: #ffc219;color: black; font-weight: bold;">-->
+          <!--<span>{{team.name}} - {{team.color}}</span>-->
+        <!--</li>-->
+      <!--</ul>-->
+      <!--<customer-detail [participants]="participants"></customer-detail>-->
+    <!--</div>-->
+    <!--<div class="tab-pane" id="2a">-->
+      <!--<team-rankings></team-rankings>-->
+    <!--</div>-->
+    <!--<div class="tab-pane" id="3a">-->
+      <!--<individual-rankings></individual-rankings>-->
+    <!--</div>-->
+    <!--<div class="tab-pane" id="4a">-->
+      <!--<single-game></single-game>-->
+    <!--</div>-->
+    <!--<div class="tab-pane" id="5a">-->
+      <!--<h3>Capture Score</h3>-->
+      <!--<score-recording></score-recording>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
 <!-- Start of SimpleHitCounter Code -->
-<div align="center"><a href="http://www.simplehitcounter.com" target="_blank"><img src="http://simplehitcounter.com/hit.php?uid=2300755&f=16777215&b=0" border="0" height="18" width="83" alt="web counter"></a><br><a href="http://www.simplehitcounter.com" target="_blank" style="text-decoration:none;">web counter</a></div>
+<div align="center"><a href="http://www.simplehitcounter.com" target="_blank"><img
+  src="http://simplehitcounter.com/hit.php?uid=2300755&f=16777215&b=0" border="0" height="18" width="83"
+  alt="web counter"></a><br><a href="http://www.simplehitcounter.com" target="_blank" style="text-decoration:none;">web
+  counter</a></div>
 <!-- End of SimpleHitCounter Code -->

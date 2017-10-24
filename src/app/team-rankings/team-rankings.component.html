@@ -1,20 +1,27 @@
+<!--<head>-->
+  <!--<style>-->
+    <!--.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {-->
+      <!--background-color: royalblue;-->
+    <!--}-->
+  <!--</style>-->
+<!--</head>-->
 <div class="container">
-  <h2>Team rankings based on the games played</h2>
+  <h2>Team rankings based on the games played</h2><br>
   <table class="table table-striped table-bordered table-responsive">
-    <thead style="background-color: #ffc219; color: black; font-weight: bold">
+    <thead style="background-color: darkred; color: white;">
     <tr>
-      <td>Team</td>
-      <td>Victory Points</td>
-      <td>Points Balance</td>
-      <td>Single Games Played</td>
-      <td>Single Games Won</td>
-      <td>Double Games Played</td>
-      <td>Double Games Won</td>
-      <td>Total Games Played</td>
+      <td style="white-space: nowrap">Team</td>
+      <td style="white-space: nowrap">Victory Points</td>
+      <td style="white-space: nowrap">Points Balance</td>
+      <td style="white-space: nowrap">Single Games Played</td>
+      <td style="white-space: nowrap">Single Games Won</td>
+      <td style="white-space: nowrap">Double Games Played</td>
+      <td style="white-space: nowrap">Double Games Won</td>
+      <td style="white-space: nowrap">Total Games Played</td>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let team of teamRanking" >
+    <tr *ngFor="let team of teamRanking" class="found">
       <td>{{team.name}}</td>
       <td>{{team.points}}</td>
       <td>{{team.displayPoints}}</td>

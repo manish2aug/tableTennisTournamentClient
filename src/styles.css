@@ -1,20 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
 body {
-  padding : 10px ;
-
+  padding : 15px ;
+  background: linen;
+  font-weight: bold;
+  color: black;
 }
+/*table.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {*/
+  /*background-color: royalblue;*/
+/*}*/
 
-#exTab1 .tab-content {
-  color : black;
-  /* background-color: #428bca; */
-  padding : 5px 15px;
-}
+/*#exTab1 .tab-content {*/
+  /*color : black;*/
+  /*!* background-color: #428bca; *!*/
+  /*padding : 5px 15px;*/
+/*}*/
 
 /* remove border radius for the tab */
 
-#exTab1 .nav-pills > li > a {
-  border-radius: 20%;
-}
+/*#exTab1 .nav-pills > li > a {*/
+  /*border-radius: 20%;*/
+/*}*/
 
 /* change border radius for the tab , apply corners on top*/
 
